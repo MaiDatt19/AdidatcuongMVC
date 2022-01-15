@@ -1,0 +1,104 @@
+﻿@model IEnumerable<AdidatcuongMVC.Models.ProductViewModel>
+    @{
+        ViewData["Title"] = "Home Page";
+    }
+    <script>
+        function addOrderDetail(Pid) {
+              var quantity = document.getElementById(Pid).value;
+            window.location.href = "Order_Detail/Create/?OrderID=" +<%=HttpContext.Session.getString("orderID")%>+
+                "&ProductID=" + Pid + "&Quantity=" + quantity;
+        }
+
+
+    </script>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>True Money, True Sneakers.</p>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.product.ProductID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.product.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.product.UnitPrice)
+                    </th>
+                    <th>
+                        Choose your quantity.
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img width="200" height="200" src="@item.pImage.Link" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.product.ProductID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.product.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.product.UnitPrice)
+                        </td>
+                        <td>
+                            <input id ="@item.product.ProductID" type="number" value="0" min="0" />
+                        </td>
+                        <td>
+                            <button type="button" onclick="addOrderDetail("@item.product.ProductID")">Add</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <center>
+            <button class="resetBtn" name="resetBtn">RESET</button>
+            <button type="button" class="orderBtn" name="createOrderBtn">CREATE ORDER</button>
+        </center>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact infomation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Provide your contact information.</p>
+                    <div>
+                        <label style="width:100px" for="agentEmail">Email: </label>
+                        <input id="agentEmail" placeholder="Type your email" />
+                    </div>
+                    <div>
+                        <label style="width:100px" for="agentName">Name: </label>
+                        <input id="agentName" placeholder="Type your name" />
+                    </div>
+                    <div>
+                        <label style="width:100px" for="agentAddress">Address: </label>
+                        <input id="agentAddress" placeholder="Type your address" />
+                    </div>
+                    <div>
+                        <label style="width:100px" for="agentPhone">Phone Number: </label>
+                        <input id="agentPhone" placeholder="Type your phone number" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="createAgent()" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
